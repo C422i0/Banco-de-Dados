@@ -1,0 +1,104 @@
+------------------------------ENDERECO--------------
+
+INSERT INTO `endereco` (`idEndereco`, `bairro`, `cep`, `rua`, `logradouro`, `cidade`) VALUES (1, 'eear', '12345678', 'alameda bahia', 'eear', 'guaratingueta');
+INSERT INTO `endereco` (`idEndereco`, `bairro`, `cep`, `rua`, `logradouro`, `cidade`) VALUES (2, 'eear', '87654321', 'alameda rio de janiero', 'eear', 'guaratingueta');
+INSERT INTO `endereco` (`idEndereco`, `bairro`, `cep`, `rua`, `logradouro`, `cidade`) VALUES (3, 'cta', '11111111', 'h18a', 'cta', 'guaratingueta');
+
+select * from endereco where cidade='guaratingueta';
+select from endereco where cidade='guaratingueta';
+
+update endereco set rua='bolinho' where idEndereco=3;
+
+delete from endereco where idEndereco=4;
+
+---------------------------CLIENTE-----------------------------------
+
+INSERT INTO `cliente` (`idCliente`, `nome`, `email`, `numeroCasa`, `fkEndereco`) VALUES
+(2, 'ricardo', 'ricardo@gmail.com', 'f34', 1),
+(3, 'samuel', 'samuel@gmail.com', '465', 2),
+(4, 'paula', 'paula@gmail.com', '435', 3),
+(5, 'pedro', 'pedro@gmail.com', '685', 4);
+
+select * from cliente where nome='samuel';
+
+update cliente set numeroCasa=78 where nome='ricardo';
+
+delete from cliente where idCliente=5;
+
+--------------------TELEFONE--------------------------------
+
+INSERT INTO `telefone` (`idTelefone`, `ddd`, `numero`, `fkCliente`, `tipo`) VALUES
+(1, '12', '987654321', 2, 'celular'),
+(2, '12', '123456789', 3, 'celular'),
+(3, '15', '111111111', 4, 'casa'),
+(4, '89', '222222222', 5, 'celular'),
+(5, '82', '333333333', 6, 'celular');
+
+select* from telefone where fkCliente=4;
+
+update telefone set numero=998766650 where fkCliente=4;
+
+delete from telefone where numero=333333333;
+
+
+--------------------SERVICO-----------------------------------------
+
+INSERT INTO `servico` (`idServico`, `nome`, `valor`) VALUES
+(1, 'banho p', 30),
+(2, 'banho m', 40),
+(3, 'banho g', 50),
+(4, 'tosa p', 25),
+(5, 'tosa m', 35),
+(6, 'tosa g', 45);
+
+select * from servico where nome='banho m';
+
+select valor from servico where nome='banho g';
+
+update servico set valor=45 where nome='banho m';
+
+delete from servico where idServico=7;
+
+
+-----------------------AGENDA-----------------------------
+
+INSERT INTO `agenda` (`idAgenda`, `dataServico`, `fkVenda`, `pago`) VALUES
+(2, '2022/08/09', 2, 'sim'),
+(3, '2022/08/09', 3, 'sim'),
+(4, '2022/08/09', 4, 'sim'),
+(5, '2022/08/09', 5, 'sim'),
+(6, '2022/08/09', 6, 'nao');
+
+select * from agenda where fkVenda=6;
+
+update agenda set pago='sim' where idAgenda=6;
+
+delete from agenda where idAgenda=7;
+
+-------------------ITENS SERVIÇOS------------------------
+
+INSERT INTO `itensservicos` (`idItensServicos`, `fkEstoque`, `fkServico`, `quantidade`) VALUES
+(2, 1, 1, '12'),
+(3, 11, 2, '50'),
+(4, 2, 3, '45'),
+(5, 17, 4, '100'),
+(6, 16, 5, '12'),
+select * from itensservicos where fkServico=5;
+
+update itensservicos set quantidade=2 where idItensServicos=6;
+
+delete from itensservicos where idItensServicos=5;
+
+--------------------------VENDA---------------------------
+INSERT INTO `venda` (`idVenda`, `dataVenda`, `valorTotal`, `fkCliente`) VALUES
+(2, '2022/08/09 09:00:00', 45, 2),
+(3, '2022/08/09 10:00:00', 45, 3),
+(4, '2022/08/09 10:45:00', 55, 4),
+(5, '2022/08/09 11:30:00', 45, 5),
+(6, '2022/08/09 12:10:00', 50, 6),
+
+select * from venda where fkVenda=5;
+
+update venda set valorTotal=60 where idVenda=6;
+
+delete from venda where idVenda=5;

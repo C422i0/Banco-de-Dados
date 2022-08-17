@@ -1,0 +1,114 @@
+mysql -u root -p
+create schema PetShop;
+create table Endereco;
+  `idEndereco` INT NOT NULL AUTO_INCREMENT,
+  `logradouro` VARCHAR(45) NOT NULL,
+  `bairro` VARCHAR(45) NOT NULL,
+  `rua` VARCHAR(45) NOT NULL,
+  `cidade` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idEndereco`));
+
+   create table Cliente(
+  `idCliente` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `numeroCasa` VARCHAR(45) NOT NULL,
+  `fkEndereco` INT NOT NULL,
+  PRIMARY KEY (`idCliente`),
+    FOREIGN KEY (`fkEndereco`)
+    REFERENCES `petshop`.`Endereco` (`idEndereco`));
+
+create table Telefone(
+  `idTelefone` INT NOT NULL AUTO_INCREMENT,
+  `numero` DECIMAL(9) NOT NULL,
+  `ddd` INT NOT NULL,
+  `tipo` VARCHAR(45) NOT NULL,
+  `fkUsuario` INT NOT NULL,
+  PRIMARY KEY (`idTelefone`),
+    FOREIGN KEY (`fkUsuario`)
+    REFERENCES `petshop`.`Cliente` (`idCliente`));
+
+   create table Raca(
+  `idRaca` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `porte` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idRaca`));
+
+   create table Animal(
+  `idAnimal` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `especie` VARCHAR(45) NOT NULL,
+  `fkRaca` INT NOT NULL,
+  `genero` VARCHAR(45) NOT NULL,
+  `fkCliente` INT NOT NULL,
+  `dataNascimento` DATE NOT NULL,
+  `observacoes` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`idAnimal`),
+    FOREIGN KEY (`fkCliente`)
+    REFERENCES `petshop`.`Cliente` (`idCliente`)
+    FOREIGN KEY (`fkRaca`)
+    REFERENCES `petshop`.`Raca` (`idRaca`));
+
+
+
+   create table Servico(
+  `idServico` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `valor` FLOAT NOT NULL,
+  PRIMARY KEY (`idServico`));
+
+
+   create table Produtos(
+  `idEstoqueProdutos` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `quantidade` DECIMAL NOT NULL,
+  `quantidadeMinima` DECIMAL NOT NULL,
+  `custoUnitario` FLOAT NOT NULL,
+  `dataCompra` DATETIME NOT NULL,
+  PRIMARY KEY (`idEstoqueProdutos`));
+
+
+
+create table(
+  `idItensServico` INT NOT NULL AUTO_INCREMENT,
+  `fkEstoqueProdutos` INT NOT NULL,
+  `fkServico` INT NOT NULL,
+  `quantidadeUtilizada` FLOAT NOT NULL,
+  PRIMARY KEY (`idItensServico`),
+    FOREIGN KEY (`fkServico`)
+    REFERENCES `petshop`.`Servico` (`idServico`)
+    FOREIGN KEY (`fkEstoqueProdutos`)
+    REFERENCES `petshop`.`EstoqueProdutos` (`idEstoqueProdutos`));
+
+
+create table Venda(
+  `idVenda` INT NOT NULL AUTO_INCREMENT,
+  `dataVenda` DATETIME NOT NULL,
+  `valorTotal` FLOAT NOT NULL,
+  `fkCliente` INT NOT NULL,
+  PRIMARY KEY (`idVenda`),
+    FOREIGN KEY (`fkCliente`)
+    REFERENCES `petshop`.`Cliente` (`idCliente`));
+
+create table ServicoVendido(
+  `idServicoVendido` INT NOT NULL AUTO_INCREMENT,
+  `fkServico` INT NOT NULL,
+  `fkVenda` INT NOT NULL,
+  `quantidade` DECIMAL NOT NULL,
+  `valorAtual` DECIMAL NOT NULL,
+  PRIMARY KEY (`idServicoVendido`),
+    FOREIGN KEY (`fkServico`)
+    REFERENCES `petshop`.`Servico` (`idServico`)
+    FOREIGN KEY (`fkVenda`)
+    REFERENCES `petshop`.`Venda` (`idVenda`));
+
+
+   create table Venda(
+  `idAgenda` INT NOT NULL AUTO_INCREMENT,
+  `data` DATETIME NOT NULL,
+  `fkVenda` INT NOT NULL,
+  `pago` TINYINT NOT NULL,
+  PRIMARY KEY (`idAgenda`),
+    FOREIGN KEY (`fkVenda`)
+    REFERENCES `petshop`.`Venda` (`idVenda`));
+
